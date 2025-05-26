@@ -22,7 +22,7 @@ def call_with_mcp(user_message: str) -> str:
     """
     try:
         response = client.responses.create(
-            model="gpt-4.1-nano",
+            model="gpt-4.1",
             tools=[
                 {
                     "type": "mcp",
