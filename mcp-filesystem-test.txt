@@ -1,0 +1,10 @@
+This file was created using the MCP filesystem server!
+
+The server provides the following capabilities:
+- Read/write files
+- Create/list/delete directories
+- Move files/directories
+- Search files
+- Get file metadata
+
+Server installation completed successfully.
