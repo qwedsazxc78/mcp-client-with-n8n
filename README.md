@@ -299,4 +299,4 @@ mcp-with-n8n/
 
 ## License
 
-See [MIT](MIT) file for details.
+See [MIT](https://github.com/qwedsazxc78/mcp-client-with-n8n/blob/main/LICENSE) file for details.
