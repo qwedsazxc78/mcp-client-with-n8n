@@ -299,4 +299,4 @@ mcp-with-n8n/
 
 ## License
 
-See [LICENSE](LICENSE) file for details.
+See [MIT](MIT) file for details.
