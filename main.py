@@ -52,13 +52,13 @@ if __name__ == "__main__":
     # Example 1: Calculator
     print("\nExample 1: Calculator")
     print("-" * 40)
-    content1 = "使用mcp tools n8n-mcp-server，請計算 123 + 456 ="
+    content1 = "使用 mcp tools n8n-mcp-server，請計算 123 + 456 ="
     response1 = call_with_mcp(content1)
     print(f"Response: {response1}")
 
     # Example 2: CRM Query
     print("\nExample 2: CRM Query")
     print("-" * 40)
-    content2 = "使用mcp tools n8n-mcp-server，請給我 CRM 客戶名單，其中狀態是 '潛在機會'"
+    content2 = "使用 mcp tools n8n-mcp-server，請給我 CRM 客戶名單，其中狀態是 '潛在機會' "
     response2 = call_with_mcp(content2)
     print(f"Response: {response2}")
