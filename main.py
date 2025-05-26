@@ -62,10 +62,3 @@ if __name__ == "__main__":
     content2 = "使用mcp tools n8n-mcp-server，請給我 CRM 客戶名單，其中狀態是 '潛在機會'"
     response2 = call_with_mcp(content2)
     print(f"Response: {response2}")
-
-    # Example 3: Another calculation
-    print("\nExample 3: Multiplication")
-    print("-" * 40)
-    content3 = "計算 789 乘以 321 的結果"
-    response3 = call_with_mcp(content3)
-    print(f"Response: {response3}")

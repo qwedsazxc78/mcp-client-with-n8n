@@ -17,14 +17,18 @@ OpenAI now provides native MCP support through their Responses API, making it in
 * ✅ Error handling
 * ✅ Multiple example use cases
 * ✅ Secure API key management
+* ✅ Dependency management with UV
 
 ## Prerequisites
 
 * Python 3.13+
+* [UV](https://github.com/astral-sh/uv) - Fast Python package manager
 * OpenAI API key
 * Access to n8n MCP server (https://n8n-alex.zeabur.app/mcp/calculator/sse)
 
 ## Installation
+
+### Quick Start (Using Make)
 
 1. Clone the repository:
 
@@ -33,19 +37,71 @@ git clone <repository-url>
 cd mcp-with-n8n
 ```
 
-2. Install dependencies:
+2. Install dependencies using Make:
 
 ```bash
-pip install openai python-dotenv
+# Install UV (if not already installed)
+make setup-uv
+
+# Install production dependencies
+make install
+
+# Or install all dependencies (including dev)
+make install-dev
 ```
 
-Or using the project's dependencies:
+3. Create a `.env` file from the example:
 
 ```bash
-pip install -e .
+cp .env.example .env
+# Edit .env with your API key
 ```
 
-3. Create a `.env` file in the project root:
+4. Run the application:
+
+```bash
+make run
+```
+
+### Manual Installation
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd mcp-with-n8n
+```
+
+2. Install UV (if not already installed):
+
+```bash
+# On macOS/Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# On Windows
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+3. Create a virtual environment and install dependencies:
+
+```bash
+# Create virtual environment with Python 3.13
+uv venv --python 3.13
+
+# Activate the virtual environment
+# On macOS/Linux:
+source .venv/bin/activate
+# On Windows:
+.venv\Scripts\activate
+
+# Install dependencies
+uv pip sync requirements.txt
+
+# Or install with dev dependencies
+uv pip sync requirements.txt requirements-dev.txt
+```
+
+4. Create a `.env` file in the project root:
 
 ```env
 OPENAI_API_KEY=your-openai-api-key-here
@@ -66,7 +122,6 @@ python main.py
 This will execute three examples:
 1. Calculator operation (123 + 456)
 2. CRM query (listing customers with "潛在機會" status)
-3. Multiplication calculation (789 × 321)
 
 ### Code Example
 
@@ -126,6 +181,42 @@ graph LR
     F --> G[Natural Language Output]
 ```
 
+## Development
+
+### Makefile Commands
+
+The project includes a Makefile for common tasks:
+
+```bash
+make help         # Show available commands
+make setup-uv     # Install UV package manager
+make install      # Install production dependencies
+make install-dev  # Install all dependencies including dev
+make clean        # Remove virtual environment and cache
+make run          # Run the main script
+```
+
+### Adding Dependencies
+
+To add new dependencies to the project:
+
+```bash
+# Add a production dependency
+uv pip install package-name
+uv pip freeze > requirements.txt
+
+# Or edit pyproject.toml and sync
+uv pip sync
+```
+
+### Installing Optional Dependencies
+
+To install optional dependencies (e.g., for alternative implementations):
+
+```bash
+uv pip install -e ".[alternative]"
+```
+
 ## Security Notes
 
 1. **Never commit `.env` files** - The `.gitignore` is configured to exclude them
@@ -161,11 +252,15 @@ response = client.responses.create(
 ```
 mcp-with-n8n/
 ├── main.py              # Simple implementation using Responses API
-├── main_alternative.py  # Alternative implementation with function calling
 ├── .env                 # Environment variables (not in git)
 ├── .env.example        # Example environment file
 ├── .gitignore          # Git ignore rules
-├── pyproject.toml      # Project dependencies
+├── .python-version     # Python version specification (3.13)
+├── .tool-versions      # asdf/mise version specification
+├── pyproject.toml      # Project metadata and dependencies
+├── requirements.txt    # Production dependencies for UV
+├── requirements-dev.txt # Development dependencies for UV
+├── Makefile            # Automation commands
 ├── README.md           # This file
 └── uv.lock            # Dependency lock file
 ```
@@ -177,21 +272,14 @@ mcp-with-n8n/
 1. **"OPENAI_API_KEY not found"**: Ensure `.env` file exists and contains valid API key
 2. **MCP Server connection errors**: Check server URL and network connectivity
 3. **Model not found**: Ensure you're using a supported model (gpt-4.1, gpt-4o, etc.)
+4. **UV not found**: Make sure UV is installed and available in your PATH
 
 ### Debug Tips
 
 * Check the response object for detailed error messages
 * Verify MCP server is accessible
 * Ensure proper authentication headers if required
-
-## Alternative Implementation
-
-The `main_alternative.py` file contains a more complex implementation using:
-* OpenAI function calling
-* Async/await for better performance
-* Manual MCP server communication
-
-Use this if you need more control over the MCP interaction process.
+* Use `uv pip list` to verify installed packages
 
 ## Contributing
 
@@ -207,11 +295,8 @@ Use this if you need more control over the MCP interaction process.
 * [OpenAI MCP Guide](https://platform.openai.com/docs/guides/tools-remote-mcp)
 * [Model Context Protocol Specification](https://modelcontextprotocol.io/)
 * [n8n Documentation](https://docs.n8n.io/)
+* [UV Documentation](https://github.com/astral-sh/uv)
 
 ## License
 
-[Specify your license here]
-
-## Contact
-
-[Your contact information]
+See [LICENSE](LICENSE) file for details.
